@@ -1,114 +1,82 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{{post.title}}{% endblock title %}
+{% block title %}{{ post.title }}{% endblock title %}
 {% block content %}
-<!-- Blog Detail Start -->
 <div class="container py-5 px-2 bg-white">
     <div class="row px-4">
         <div class="col-12">
             {% if post.image %}
-                <img class="img-fluid mb-4" src="{{post.image.url}}" alt="Image">
+                <img class="img-fluid mb-4" src="{{ post.image.url }}" alt="Image">
             {% endif %}
-            <h2 class="mb-3 font-weight-bold">{{post.title}}</h2>
+            <h2 class="mb-3 font-weight-bold">{{ post.title }}</h2>
             <div class="d-flex">
-                <p class="mr-3 text-muted"><i class="fa fa-calendar-alt"></i>{{ post.created_at|date:'M d, Y' }}</p>
-                <p class="mr-3 text-muted"><i class="fa fa-folder"></i> Web Design</p>
-                <p class="mr-3 text-muted"><i class="fa fa-comments"></i>{{post.comments.count}} Comments</p>
+                <p class="mr-3 text-muted"><i class="fa fa-calendar-alt"></i> {{ post.created_at|date:'M d, Y' }}</p>
+                <p class="mr-3 text-muted"><i class="fa fa-comments"></i> {{ post.comments.count }} Comment{{ post.comments.count|pluralize }}</p>
             </div>
-            <p>{{post.body}}</p>
+            <p>{{ post.body }}</p>
+        </div>
 
-            {% comment %} <h3 class="mb-3 font-weight-bold">Est dolor lorem et ea</h3>
-            <img class="w-50 float-left mr-4 mb-3" src="img/blog-1.jpg" alt="Image">
-            <p>Diam dolor est labore duo invidunt ipsum clita et,
-                sed et lorem voluptua tempor invidunt at est sanctus sanctus.
-                Clita dolores sit kasd diam takimata justo diam lorem sed. 
-                Magna amet sed rebum eos. Clita no magna no dolor erat diam tempor rebum consetetur, 
-                sanctus labore sed nonumy diam lorem amet eirmod. No at tempor sea diam kasd, 
-                takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at lorem invidunt sadipscing rebum sit amet ut ut,
-                voluptua diam dolores at sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos. 
-                Invidunt sed diam dolores takimata dolor dolore dolore sit. Sit ipsum erat amet lorem et,
-                magna sea at sed et eos. Accusam eirmod kasd lorem clita sanctus ut consetetur et. 
-                Et duo tempor sea kasd clita ipsum et. Takimata kasd diam justo est eos erat aliquyam et ut.
-                Ea sed sadipscing no justo et eos labore, gubergren ipsum magna dolor lorem dolore, 
-                elitr aliquyam takimata sea kasd dolores diam, amet et est accusam labore eirmod vero et voluptua. 
-                Amet labore clita duo et no. Rebum voluptua magna eos magna, justo gubergren labore sit voluptua eos.
-                Dolores et no stet magna et gubergren amet dolor sit, lorem dolore est vero et.</p> {% endcomment %}
-        </div>
+        <!-- Comments -->
         <div class="col-12 py-4">
-            <a href="" class="btn btn-sm btn-outline-primary mb-1">Lorem</a>
-            <a href="" class="btn btn-sm btn-outline-primary mb-1">Lorem</a>
-            <a href="" class="btn btn-sm btn-outline-primary mb-1">Lorem</a>
-            <a href="" class="btn btn-sm btn-outline-primary mb-1">Lorem</a>
-            <a href="" class="btn btn-sm btn-outline-primary mb-1">Lorem</a>
-            <a href="" class="btn btn-sm btn-outline-primary mb-1">Lorem</a>
-            <a href="" class="btn btn-sm btn-outline-primary mb-1">Lorem</a>
-        </div>
-        <div class="col-12 py-4">
-            <div class="btn-group btn-group-lg w-100">
-                <button type="button" class="btn btn-outline-primary"><i class="fa fa-angle-left mr-2"></i> Previous</button>
-                <button type="button" class="btn btn-outline-primary">Next<i class="fa fa-angle-right ml-2"></i></button>
-            </div> 
-        </div>
-        <div class="col-12 py-4">
-            <h3 class="mb-4 font-weight-bold">{{post.comments.count}} Comments</h3>
-            <div class="media mb-4">
-                <img src="img/user.jpg" alt="Image" class="mr-3 mt-1 rounded-circle" style="width:60px;">
-                <div class="media-body">
-                    <h4>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <button class="btn btn-sm btn-light">Reply</button>
-                </div>
-            </div>
-            {% comment %} <div class="media mb-4">
-                <img src="img/user.jpg" alt="Image" class="mr-3 mt-1 rounded-circle"
-                    style="width:60px;">
-                <div class="media-body">
-                    <h4>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <button class="btn btn-sm btn-light">Reply</button>
-                    <div class="media mt-4">
-                        <img src="img/user.jpg" alt="Image" class="mr-3 mt-1 rounded-circle"
-                            style="width:60px;">
-                        <div class="media-body">
-                            <h4>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
-                            <button class="btn btn-sm btn-light">Reply</button>
+            <h3 class="mb-4 font-weight-bold">{{ comments.count }} Comment{{ comments.count|pluralize }}</h3>
+
+            {% for comment in comments %}
+                <div class="media mb-4">
+                    <img src="{{ comment.image.url }}" alt="Image" class="mr-3 mt-1 rounded-circle" style="width:60px;">
+                    <div class="media-body">
+                        <h4>{{ comment.name }} <small><i>{{ comment.createt_at|date:"M d, Y H:i" }}</i></small></h4>
+                        <p>{{ comment.message }}</p>
+                        <button class="btn btn-sm btn-light reply-btn" data-comment-id="{{ comment.id }}">Reply</button>
+
+                        <!-- Replies -->
+                        {% for reply in comment.getReplies %}
+                            <div class="media mt-3 ml-5">
+                                <img src="{{ reply.image.url }}" alt="Image" class="mr-3 mt-1 rounded-circle" style="width:60px;">
+                                <div class="media-body">
+                                    <h5>{{ reply.name }} <small><i>{{ reply.createt_at|date:"M d, Y H:i" }}</i></small></h5>
+                                    <p>{{ reply.message }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <!-- Reply form -->
+                        <div class="reply-form mt-3" id="reply-form-{{ comment.id }}" style="display:none;">
+                            <h5>Reply to {{ comment.name }}</h5>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ comment_form.as_p }}
+                                <input type="hidden" name="ParentId" value="{{ comment.pk }}">
+                                <input type="submit" value="Reply Comment" class="btn btn-primary">
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div> {% endcomment %}
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
         </div>
+
+        <!-- Leave a comment -->
         <div class="col-12">
             <h3 class="mb-4 font-weight-bold">Leave a comment</h3>
-            <form method='post'>
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{comment_form.as_p}}
-                {% comment %} <div class="form-group">
-                    <label for="name">Name *</label>
-                    <input type="text" class="form-control" id="name">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" class="form-control" id="email">
-                </div>
-                <div class="form-group">
-                    <label for="website">Website</label>
-                    <input type="url" class="form-control" id="website">
-                </div>
-
-                <div class="form-group">
-                    <label for="message">Message *</label>
-                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                </div> {% endcomment %}
-                <div class="form-group">
-                    <input type="submit" value="Leave Comment" class="btn btn-primary">
-                </div>
+                {{ comment_form.as_p }}
+                <input type="submit" value="Leave Comment" class="btn btn-primary">
             </form>
         </div>
     </div>
 </div>
-<!-- Blog Detail End -->
+
+<!-- Toggle reply form -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".reply-btn").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            let form = document.getElementById("reply-form-" + this.dataset.commentId);
+            form.style.display = (form.style.display === "none") ? "block" : "none";
+        });
+    });
+});
+</script>
 {% endblock content %}

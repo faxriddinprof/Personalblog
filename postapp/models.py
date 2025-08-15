@@ -25,9 +25,23 @@ class Comment(models.Model):
     email=models.EmailField(max_length=200)
     wibesite=models.CharField(max_length=200, blank=True, null=True)
     createt_at=models.DateTimeField(auto_now_add=True)
-    reply= models.ForeignKey('self', on_delete=models.CASCADE, related_name='leplies', null=True)
     message= models.TextField()
+    parent= models.ForeignKey('Comment', on_delete=models.CASCADE, related_name='replies', blank=True, null=True)
+    image= models.FileField(upload_to='comment_image', default='comment_image/user.png')
+
+    # parent= models.ForeignKey('Comment', on_delete=models.CASCADE, related_name=)
 
 
     def __str__(self):
         return self.name
+    
+
+    @property
+    def getReplies(self):
+        return Comment.objects.filter(parent=self).order_by('-createt_at')
+    
+    @property
+    def isParent(self):
+        if self.parent is None:
+            return True
+        return False
