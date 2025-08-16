@@ -14,6 +14,8 @@ def GetPost(request, pk):
     comments = post.comments.filter(parent__isnull=True)  # faqat asosiy commentlar
     comment_form = CommentForm()
 
+    tags= post.tasg.all()
+
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
@@ -34,6 +36,7 @@ def GetPost(request, pk):
     context = {
         "post": post,
         'comment_form': comment_form,
-        'comments': comments
+        'comments': comments,
+        'tags':tags
     }
     return render(request, template_name, context)

@@ -16,6 +16,13 @@
             <p>{{ post.body }}</p>
         </div>
 
+        <div class="col-12 py-4">
+            {% for tag in tags  %}
+                <a href="" class="btn btn-sm btn-outline-primary mb-1">{{tag.name}}</a>
+            {% endfor %}
+            
+        </div>
+
         <!-- Comments -->
         <div class="col-12 py-4">
             <h3 class="mb-4 font-weight-bold">{{ comments.count }} Comment{{ comments.count|pluralize }}</h3>
