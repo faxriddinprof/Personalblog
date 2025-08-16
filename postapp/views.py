@@ -8,31 +8,32 @@ def GetPosts(request):
     return render(request, 'postapp/list.html', context={"posts":posts})
 
 
-
 def GetPost(request, pk):
-    template_name='postapp/detail.html'
-    post=Post.objects.get(pk=pk)
-    comments=post.comments.all()
-    comment_form=CommentForm()
-    if request.method =='POST':
-        comment_form=CommentForm(request.POST)
+    template_name = 'postapp/detail.html'
+    post = Post.objects.get(pk=pk)
+    comments = post.comments.filter(parent__isnull=True)  # faqat asosiy commentlar
+    comment_form = CommentForm()
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            parent_obj= None
-            try:
-                parent_id= request.POST.get("ParentId")
-            except:
-                parent_id=None
-                
+            parent_id = request.POST.get("ParentId")
+            parent_obj = None
             if parent_id:
-                parent_obj = Comment.objects.get(pk=parent_id)
-            if parent_obj:
-                cf =comment_form.save(commit=False)
-                cf.parent=parent_obj
-                cf.post=post
-                cf.save()
-                return redirect('post_detail', pk=post.pk)
+                try:
+                    parent_obj = Comment.objects.get(pk=parent_id)
+                except Comment.DoesNotExist:
+                    parent_obj = None
 
+            cf = comment_form.save(commit=False)
+            cf.post = post
+            cf.parent = parent_obj  # reply bo‘lsa parent qo‘yiladi, bo‘lmasa None
+            cf.save()
+            return redirect('post_detail', pk=post.pk)
 
-
-    context={"post":post, 'comment_form':comment_form, 'comments':comments}
-    return render(request, template_name=template_name, context=context)
+    context = {
+        "post": post,
+        'comment_form': comment_form,
+        'comments': comments
+    }
+    return render(request, template_name, context)
