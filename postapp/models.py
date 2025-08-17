@@ -1,13 +1,11 @@
 from django.db import models
 
 # Create your models here.
-
-
 class Post(models.Model):
     title= models.CharField(max_length=200)
     body = models.TextField()
     image= models.FileField(upload_to='images/')
-    tags= models.ManyToManyField('Tag',related_name='posts', blank=True, null=True)
+    tags= models.ManyToManyField('Tag',related_name='posts', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

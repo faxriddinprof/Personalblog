@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #ichki applar
     'postapp',
+    'contactapp',
 ]
 
 MIDDLEWARE = [
