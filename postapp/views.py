@@ -14,7 +14,7 @@ def GetPost(request, pk):
     comments = post.comments.filter(parent__isnull=True)  # faqat asosiy commentlar
     comment_form = CommentForm()
 
-    tags= post.tasg.all()
+    tags= post.tags.all()
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -40,3 +40,12 @@ def GetPost(request, pk):
         'tags':tags
     }
     return render(request, template_name, context)
+
+
+def GetPostsbyTag(request, tagName):
+    filter=True
+    template_name='postapp/list.html'
+    posts_by_filter= Post.objects.filter(tags__name=tagName)
+
+    context={'posts_by_filter':posts_by_filter}
+    return render(request, template_name=template_name,context=context )
