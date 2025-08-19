@@ -49,3 +49,9 @@ def GetPostsbyTag(request, tagName):
 
     context={'posts_by_filter':posts_by_filter, 'filter':filter, 'tagName': tagName}
     return render(request, template_name=template_name,context=context )
+
+
+def about(request):
+    template_name='about.html'
+
+    return render(request, template_name=template_name)
