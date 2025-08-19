@@ -4,7 +4,9 @@
 {% block title %}
 {{'Posts'}}
 {% endblock title %}
+
 {% block content %}
+{% include "caresul_images.html" %}
 <!-- Blog List Start -->
 <div class="container bg-white pt-5">
     {% if filter %}
@@ -58,4 +60,5 @@
 
 </div>
 <!-- Blog List End -->
+
 {% endblock content %}

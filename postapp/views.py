@@ -52,6 +52,7 @@ def GetPostsbyTag(request, tagName):
 
 
 def about(request):
+    posts=Post.objects.all()
     template_name='about.html'
 
-    return render(request, template_name=template_name)
+    return render(request, template_name=template_name,context={"posts":posts})

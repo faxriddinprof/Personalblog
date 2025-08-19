@@ -8,9 +8,18 @@
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav m-auto">
-                <a href="{% url 'post_all' %}" class="nav-item nav-link active">Home</a>
-                <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
-                <a href="{% url 'send_message' %}" class="nav-item nav-link">Contact</a>
+                <a href="{% url 'post_all' %}" 
+                   class="nav-item nav-link {% if request.path == '/' %}active{% endif %}">
+                   Home
+                </a>
+                <a href="{% url 'about' %}" 
+                   class="nav-item nav-link {% if request.path == '/about/' %}active{% endif %}">
+                   About
+                </a>
+                <a href="{% url 'send_message' %}" 
+                   class="nav-item nav-link {% if request.path == '/contact/' %}active{% endif %}">
+                   Contact
+                </a>
             </div>
         </div>
     </nav>
